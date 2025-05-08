@@ -15,11 +15,11 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2025/05/08/Java%E5%85%AB%E8%82%A1/image-20250507132121863-1746687931696-7.png">
 <meta property="og:image" content="http://example.com/2025/05/08/Java%E5%85%AB%E8%82%A1/image-20250507132201842-1746687916242-5.png">
-<meta property="og:image" content="http://example.com/2025/05/08/Java%E5%85%AB%E8%82%A1/Users/LENOVO/AppData/Roaming/Typora/typora-user-images/image-20250507140253239.png">
+<meta property="og:image" content="http://example.com/2025/05/08/Java%E5%85%AB%E8%82%A1/image-20250507140253239.png">
 <meta property="og:image" content="http://example.com/2025/05/08/Java%E5%85%AB%E8%82%A1/image-20250507142536180.png">
 <meta property="og:image" content="http://example.com/2025/05/08/Java%E5%85%AB%E8%82%A1/image-20250507150710550.png">
 <meta property="article:published_time" content="2025-05-08T01:57:04.000Z">
-<meta property="article:modified_time" content="2025-05-08T07:16:30.943Z">
+<meta property="article:modified_time" content="2025-05-08T07:19:48.148Z">
 <meta property="article:author" content="无敌的小九">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2025/05/08/Java%E5%85%AB%E8%82%A1/image-20250507132121863-1746687931696-7.png">
@@ -113,15 +113,15 @@
 <p><strong>缓存击穿</strong>：给某一个key设置了过期时间，当key过期的时候，恰好这时间点对这个key有大量的并发请求过来，这些并发请求可能会瞬间把数据库压垮。</p>
 <p>解决方案：1.互斥锁（强一致，性能差），当缓存失效时，先使用Redis的setnx去设置一个互斥锁，再去查找数据库并且重建缓存，释放锁。有可能产生死锁的问题</p>
 <p>2.逻辑过期（高可用，性能优），在设置key的时候，设置一个过期时间字段一起存入缓存，不给当前key设置过期时间。</p>
-<p><img src="/2025/05/08/Java%E5%85%AB%E8%82%A1/Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20250507140253239.png" alt="image-20250507140253239"></p>
+<p><img src="/2025/05/08/Java%E5%85%AB%E8%82%A1/image-20250507140253239.png" alt="缓存击穿"></p>
 <p><strong>缓存雪崩</strong>：在同一时间段大量的缓存key同时失效或者Redis服务宕机，导致大量请求到达数据库，带来巨大压力。</p>
 <p>解决方案：1.给不同的key的TTL添加随机值。2.利用Redis集群提高服务的可用性。3.给缓存业务添加降级限流策略。4.给业务添加多级缓存</p>
-<h4 id="mysql的数据如何与redis进行同步呢？（强一致性）"><a href="#mysql的数据如何与redis进行同步呢？（强一致性）" class="headerlink" title="mysql的数据如何与redis进行同步呢？（强一致性）"></a>mysql的数据如何与redis进行同步呢？（强一致性）</h4><p><img src="/2025/05/08/Java%E5%85%AB%E8%82%A1/image-20250507142536180.png" alt="image-20250507142536180"></p>
+<h4 id="mysql的数据如何与redis进行同步呢？（强一致性）"><a href="#mysql的数据如何与redis进行同步呢？（强一致性）" class="headerlink" title="mysql的数据如何与redis进行同步呢？（强一致性）"></a>mysql的数据如何与redis进行同步呢？（强一致性）</h4><p><img src="/2025/05/08/Java%E5%85%AB%E8%82%A1/image-20250507142536180.png" alt="数据同步"></p>
 <p>使用的是Redisson实现的读写锁。在读的时候添加共享锁，其他线程可以共享读操作。当我们更新数据的时候，添加排他锁，阻塞其他线程读写操作，这样就能保证在写数据的同时，是不会让其他线程读数据的，避免了脏数据。这里面需要注意的是，读方法和写方法上需要使用同一把锁才行。</p>
 <p>其实排他锁底层使用的也是<code>SETNX</code>，它保证了同时只能有一个线程操作锁住的方法。</p>
 <p>延迟双删，如果是写操作，我们先把缓存中的数据删除，然后更新数据库，最后再延时删除缓存中的数据。其中，这个延时多久不太好确定。在延时的过程中，可能会出现脏数据，并不能保证强一致性，所以没有采用它。</p>
 <h4 id="mysql的数据如何与redis进行同步呢？（延迟一致性）"><a href="#mysql的数据如何与redis进行同步呢？（延迟一致性）" class="headerlink" title="mysql的数据如何与redis进行同步呢？（延迟一致性）"></a>mysql的数据如何与redis进行同步呢？（延迟一致性）</h4><p>使用MQ中间件，更新数据之后，通知缓存删除</p>
-<h4 id="redis的数据持久化"><a href="#redis的数据持久化" class="headerlink" title="redis的数据持久化"></a>redis的数据持久化</h4><p><img src="/2025/05/08/Java%E5%85%AB%E8%82%A1/image-20250507150710550.png" alt="image-20250507150710550"></p>
+<h4 id="redis的数据持久化"><a href="#redis的数据持久化" class="headerlink" title="redis的数据持久化"></a>redis的数据持久化</h4><p><img src="/2025/05/08/Java%E5%85%AB%E8%82%A1/image-20250507150710550.png" alt="数据持久化"></p>
 <p>1.<strong>RDB</strong>：</p>
 <p><strong>例子</strong>: 想象一下相机的快门点击。每当你点击快门，你都会捕捉到那个特定时刻的场景。RDB的工作方式很相似，只不过它捕捉的是数据的状态。</p>
 <p>Redis 主进程（父进程）会执行 fork 操作来创建一个子进程，子进程会获得父进程内存中的数据副本，父进程可以立即返回处理其他客户端请求，而不需要等待 RDB 的生成过程，操作系统使用<strong>写时复制</strong>（Copy-On-Write, COW）技术，任何在父进程（Redis主进程）上发生的写操作不会影响子进程中的数据。这确保了子进程中的数据是隔离的，不受父进程中数据更改的影响。当 Redis 重新启动时，如果配置为使用 RDB 持久化，它会查找 RDB 文件，并加载它。由于 RDB 文件是一个紧凑的二进制表示形式，数据加载非常快</p>
