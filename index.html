@@ -77,6 +77,50 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java八股" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/05/08/Java%E5%85%AB%E8%82%A1/" class="article-date">
+  <time class="dt-published" datetime="2025-05-08T01:57:04.000Z" itemprop="datePublished">2025-05-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/05/08/Java%E5%85%AB%E8%82%A1/">Java八股</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="java八股"><a href="#java八股" class="headerlink" title="java八股"></a>java八股</h1><h3 id="Redis篇"><a href="#Redis篇" class="headerlink" title="Redis篇"></a>Redis篇</h3><h4 id="如何解决缓存穿透，击穿，雪崩问题？"><a href="#如何解决缓存穿透，击穿，雪崩问题？" class="headerlink" title="如何解决缓存穿透，击穿，雪崩问题？"></a>如何解决缓存穿透，击穿，雪崩问题？</h4><p><strong>缓存穿透</strong>：查询一个不存在的数据，mysql查询不到数据，就会导致每次请求都查询数据库，给数据库带来很大的压力</p>
+<p>解决方案：1.缓存空数据，占用内存，并且导致数据不一致。</p>
+<p>2.布隆过滤器，主要是用于检索一个元素是否在一个集合中，使用的是redisson实现的布隆过滤器。底层是先去初始化一个比较大数组，里面存放二进制0或1，在一开始都是0，当一个key来了之后经过3次hash计算，根据数据长度取模找到数据的下标，将数组中原来的0改成1，这样的话，三个数组的位置就能标明一个key的存在。布隆过滤器有可能会产生一定的误判，可以设置这个误判率，大概率不会超过5%。</p>
+<p><strong>缓存击穿</strong>：给某一个key设置了过期时间，当key过期的时候，恰好这时间点对这个key有大量的并发请求过来，这些并发请求可能会瞬间把数据库压垮。</p>
+<p>解决方案：1.互斥锁（强一致，性能差），当缓存失效时，先使用Redis的setnx去设置一个互斥锁，再去查找数据库并且重建缓存，释放锁。有可能产生死锁的问题</p>
+<p>2.逻辑过期（高可用，性能优），在设置key的时候，设置一个过期时间字段一起存入缓存，不给当前key设置过期时间。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/05/08/Java%E5%85%AB%E8%82%A1/" data-id="cmaepwef50000eg8l812bej8w" data-title="Java八股" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-java" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/05/08/java/" class="article-date">
@@ -233,6 +277,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2025/05/08/Java%E5%85%AB%E8%82%A1/">Java八股</a>
+          </li>
         
           <li>
             <a href="/2025/05/08/java/">java</a>
