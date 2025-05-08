@@ -13,13 +13,13 @@
 <meta property="og:site_name" content="无敌的小九">
 <meta property="og:description" content="Redis篇  如何解决缓存穿透，击穿，雪崩问题？缓存穿透：查询一个不存在的数据，mysql查询不到数据，就会导致每次请求都查询数据库，给数据库带来很大的压力 解决方案：1.缓存空数据，占用内存，并且导致数据不一致。 2.布隆过滤器，主要是用于检索一个元素是否在一个集合中，使用的是redisson实现的布隆过滤器。底层是先去初始化一个比较大数组，里面存放二进制0或1，在一开始都是0，当一个key来">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20250507132201842.png">
+<meta property="og:image" content="d:\BlogFile\source_posts\Java%E5%85%AB%E8%82%A1\image-20250507132201842.png">
 <meta property="og:image" content="c:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20250507132121863.png">
 <meta property="article:published_time" content="2025-05-08T01:57:04.000Z">
-<meta property="article:modified_time" content="2025-05-08T02:07:24.255Z">
+<meta property="article:modified_time" content="2025-05-08T02:21:22.592Z">
 <meta property="article:author" content="无敌的小九">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20250507132201842.png">
+<meta name="twitter:image" content="d:\BlogFile\source_posts\Java%E5%85%AB%E8%82%A1\image-20250507132201842.png">
   
     <link rel="alternate" href="/atom.xml" title="无敌的小九" type="application/atom+xml">
   
@@ -102,7 +102,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="Redis篇"><a href="#Redis篇" class="headerlink" title="Redis篇"></a>Redis篇</h2><p><img src="C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20250507132201842.png" alt="image-20250507132201842"></p>
+        <h2 id="Redis篇"><a href="#Redis篇" class="headerlink" title="Redis篇"></a>Redis篇</h2><p><img src="D:\BlogFile\source_posts\Java八股\image-20250507132201842.png" alt="image-20250507132201842"></p>
 <p><img src="C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20250507132121863.png" alt="image-20250507132121863"></p>
 <h4 id="如何解决缓存穿透，击穿，雪崩问题？"><a href="#如何解决缓存穿透，击穿，雪崩问题？" class="headerlink" title="如何解决缓存穿透，击穿，雪崩问题？"></a>如何解决缓存穿透，击穿，雪崩问题？</h4><p><strong>缓存穿透</strong>：查询一个不存在的数据，mysql查询不到数据，就会导致每次请求都查询数据库，给数据库带来很大的压力</p>
 <p>解决方案：1.缓存空数据，占用内存，并且导致数据不一致。</p>
